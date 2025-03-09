@@ -6,6 +6,8 @@ export default function FileInput() {
   const { setHosts, setGuests } = useDashboard();
   const [jsonData, setJsonData] = useState(null);
   const [fileName, setFileName] = useState("");
+  // console.log("DashboardProvider is rendering", { hosts, guests });
+  // console.log(jsonData);
 
   const csvToJson = (csv) => {
     const rows = csv.split("\n").filter((row) => row.trim() !== "");

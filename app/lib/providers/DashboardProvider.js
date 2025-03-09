@@ -2,7 +2,12 @@
 import { createContext, useContext, useState } from "react";
 
 // Create Context
-const DashboardContext = createContext(null);
+const DashboardContext = createContext({
+  hosts: null,
+  setHosts: () => {},
+  guests: null,
+  setGuests: () => {},
+});
 
 // Provider Component
 export function DashboardProvider({ children }) {
