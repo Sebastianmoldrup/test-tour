@@ -41,71 +41,46 @@ function assignGuestsToHosts(hosts, guests) {
       dessert: [],
     },
   }));
-  console.log(hostAssignments);
+  // console.log(hostAssignments);
 
   // Assign allergic guests to hostAssignments
   allergicGuests.forEach((g) => {
     // getAllergyFreeMeal(g.allergy);
-    assignAllergicGuestsToMeal(g);
+    console.log(assignAllergicGuestsToMeal(g));
   });
 
+  // @function
+  // @parameter guest
+  // @return
+  // @description allocate meal to guest based on allergy/vegeterian
   function assignAllergicGuestsToMeal(guest) {
-    let visited = []; // hosts visited
-    let plan = {
-      appetizer: null,
-      dinner: [],
-      dessert: [],
-    };
+    // Assign variables
+    let appetizer = null,
+      dinner = null,
+      dessert = null,
+      allergy = guest.allergy.toLowerCase();
 
-    hosts.map((h) => {
-      // Find appetizer without allergy
-      if (!h.appetizer_allergy.includes(guest.allergy.toLowerCase())) {
-        let hostArr = hosts.filter((h) => {
-          return !h.appetizer_allergy.includes(guest.allergy.toLowerCase());
-        });
-        plan.appetizer = hostArr[Math.random() * hostArr.length];
-        console.log("hostarr", hostArr);
+    // Iterate over hosts
+    hosts.forEach((host) => {
+      if (host.appetizer_allergy.includes(allergy) && !appetizer) {
+        appetizer = getAvailableHost(allergy, "appetizer_allergy");
       }
-      console.log("plan", plan);
-
-      // Find dinner without allergy
-      if (!h.dinner_allergy.includes(guest.allergy.toLowerCase())) {
+      if (host.dinner_allergy.includes(allergy) && !dinner) {
+        dinner = getAvailableHost(allergy, "dinner_allergy");
       }
-
-      // Find dessert without allergy
-      if (!h.dessert_allergy.includes(guest.allergy.toLowerCase())) {
+      if (host.dessert_allergy.includes(allergy) && !dessert) {
+        dessert = getAvailableHost(allergy, "dessert_allergy");
       }
     });
+
+    // console.log(appetizer, dinner, dessert);
+
+    return { appetizer, dinner, dessert };
   }
 
-  // Func find all meals without allergy contained
-  function getAllergyFreeMeal(allergy) {
-    let meals = hosts.map((host) => {
-      let appetizer = [],
-        dinner = [],
-        dessert = [],
-        visited = [];
-
-      // console.log(host.appetizer_allergy.split(","));
-
-      // console.log(allergy);
-      // console.log(host.appetizer_allergy.includes("melk"));
-
-      // Find host for appetizer
-      if (!host.appetizer_allergy.includes(allergy.toLowerCase())) {
-        console.log("contains", allergy);
-        let appetizerAllergyFree = host.appetizer_allergy.map(() => {});
-      }
-      // console.log("host: ", host.appetizer_allergy, "guest: ", allergy);
-
-      // Find host for dinner
-
-      // Find host for dessert
-
-      return;
-    });
-
-    return;
+  function getAvailableHost(allergy, mealType) {
+    let arr = hosts.filter((h) => !h[mealType].includes(allergy));
+    return arr.length > 0 ? arr[Math.floor(Math.random() * arr.length)] : null;
   }
 
   // Assign Vegeterian guests to hostAssignments
