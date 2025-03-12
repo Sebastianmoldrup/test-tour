@@ -14,8 +14,12 @@ export default function DisplayAttendees() {
           Verter
         </h2>
         {hosts && Object.keys(hosts).length > 0 ? (
-          Object.values(hosts).map((host) => {
-            return <HostCard host={host} />;
+          Object.values(hosts).map((host, index) => {
+            return (
+              <div key={index}>
+                <HostCard host={host} />
+              </div>
+            );
           })
         ) : (
           <div>Ingen verter lagt til</div>
@@ -28,8 +32,12 @@ export default function DisplayAttendees() {
         </h2>
         <div className="flex flex-wrap gap-8 justify-between">
           {guests && Object.keys(guests).length > 0 ? (
-            Object.values(guests).map((guest) => {
-              return <GuestCard guest={guest} />;
+            Object.values(guests).map((guest, index) => {
+              return (
+                <div key={index}>
+                  <GuestCard guest={guest} />
+                </div>
+              );
             })
           ) : (
             <div>Ingen deltagere lagt til</div>
@@ -42,10 +50,7 @@ export default function DisplayAttendees() {
 
 function GuestCard({ guest }) {
   return (
-    <div
-      key={guest.id}
-      className="bg-white p-4 rounded-lg shadow-lg border border-gray-200"
-    >
+    <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
       <div className="font-semibold text-lg">
         {guest.name} {guest.last_name}
       </div>
@@ -64,7 +69,7 @@ function GuestCard({ guest }) {
 function HostCard({ host }) {
   // console.log(Object.values(host));
   return (
-    <div key={host.id} className="border-b border-gray-300 py-4">
+    <div className="border-b border-gray-300 py-4">
       {/* Host Name */}
       <h3 className="text-xl font-bold">{host.name}</h3>
 
@@ -82,7 +87,9 @@ function HostCard({ host }) {
           {host.appetizer_vegeterian && (
             <p className="mt-1 text-sm text-gray-600">
               <strong>Vegetar:</strong>{" "}
-              {host.appetizer_vegeterian === "ja" ? "Ja" : "Nei"}
+              {host.appetizer_allergy.includes("vegetar") === "ja"
+                ? "Ja"
+                : "Nei"}
             </p>
           )}
         </div>
@@ -99,7 +106,9 @@ function HostCard({ host }) {
           {host["vegetar middag"] && (
             <p className="mt-1 text-sm text-gray-600">
               <strong>Vegetar:</strong>{" "}
-              {host.appetizer_vegeterian === "ja" ? "Ja" : "Nei"}
+              {host.appetizer_allergy.includes("vegetar") === "ja"
+                ? "Ja"
+                : "Nei"}
             </p>
           )}
         </div>
@@ -116,7 +125,7 @@ function HostCard({ host }) {
           {host.dessert_vegeterian && (
             <p className="mt-1 text-sm text-gray-600">
               <strong>Vegetar:</strong>{" "}
-              {host.dessert_vegeterian === "ja" ? "Ja" : "Nei"}
+              {host.dessert_allergy.includes("vegetar") === "ja" ? "Ja" : "Nei"}
             </p>
           )}
         </div>
