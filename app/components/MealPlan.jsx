@@ -92,9 +92,14 @@ class Host {
     };
 
     // console.log(this);
+    console.log(host.appetizer_allergy);
+    console.log("vegetar");
     console.log(
       host.appetizer_allergy &&
-        host.appetizer_allergy.split(",").includes("vegetar"),
+        host.appetizer_allergy
+          .split(",")
+          .map((s) => s.trim())
+          .includes("vegetar"),
     );
 
     this.dietary = {
