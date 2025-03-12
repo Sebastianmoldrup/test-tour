@@ -20,7 +20,7 @@ class MealPlanner {
     });
 
     // console.log("hosts", this.hosts);
-    // console.log("guests", this.guests);
+    console.log("guests", this.guests);
 
     const sort = new Sort(this.hosts, this.guests);
     sort.getVegetarianOptions();
@@ -38,7 +38,7 @@ class Sort {
 
     // console.log(this.hosts);
 
-    // console.log(this.getVegetarianOptions());
+    console.log(this.getVegetarianOptions());
   }
 
   getVegetarianOptions() {
@@ -77,6 +77,15 @@ class Guest {
     this.last_name = guest.last_name;
     this.phone = guest.phone;
     this.co_guest = guest.co_guest;
+    this.count = this.getGuestCount();
+  }
+
+  getGuestCount() {
+    if (this.co_guest) {
+      return this.co_guest.split(",").length + 1;
+    } else {
+      return 1;
+    }
   }
 }
 
@@ -91,17 +100,6 @@ class Host {
       dessert: host.dessert,
     };
 
-    // console.log(this);
-    console.log(host.appetizer_allergy);
-    console.log("vegetar");
-    console.log(
-      host.appetizer_allergy &&
-        host.appetizer_allergy
-          .split(",")
-          .map((s) => s.trim())
-          .includes("vegetar"),
-    );
-
     this.dietary = {
       allergy: {
         app: host.appetizer_allergy,
@@ -111,13 +109,22 @@ class Host {
       veg: {
         app:
           host.appetizer_allergy &&
-          host.appetizer_allergy.split(",").includes("vegetar"),
+          host.appetizer_allergy
+            .split(",")
+            .map((x) => x.trim())
+            .includes("vegetar"),
         dinner:
           host.dinner_allergy &&
-          host.dinner_allergy.split(",").includes("vegetar"),
+          host.dinner_allergy
+            .split(",")
+            .map((x) => x.trim())
+            .includes("vegetar"),
         dessert:
           host.dessert_allergy &&
-          host.dessert_allergy.split(",").includes("vegetar"),
+          host.dessert_allergy
+            .split(",")
+            .map((x) => x.trim())
+            .includes("vegetar"),
       },
     };
 
@@ -139,4 +146,12 @@ class Host {
   addDessertGuest(guest) {
     this.guests.dessert.push(guest);
   }
+}
+
+class getVegetarianOptions {
+  constructor() {}
+
+  find() {}
+
+  print() {}
 }
